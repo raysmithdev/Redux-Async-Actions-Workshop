@@ -2,29 +2,23 @@ import React from 'react'
 import Avatar from 'material-ui/Avatar'
 import {List, ListItem} from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
-import Divider from 'material-ui/Divider'
-import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bubble'
+import { connect } from 'react-redux'
 
-const UserList = () => (
+const UserList = ({ users }) => (
   <List>
     <Subheader>User list</Subheader>
-    <ListItem
-      primaryText="Brendan Lim"
-      leftAvatar={<Avatar src="https://byuc.files.wordpress.com/2012/07/avat-2.jpg" />}
-    />
-    <ListItem
-      primaryText="Eric Hoffman"
-      leftAvatar={<Avatar src="https://byuc.files.wordpress.com/2012/07/avat-2.jpg" />}
-    />
-    <ListItem
-      primaryText="Grace Ng"
-      leftAvatar={<Avatar src="https://byuc.files.wordpress.com/2012/07/avat-2.jpg" />}
-    />
-    <ListItem
-      primaryText="Kerem Suer"
-      leftAvatar={<Avatar src="https://byuc.files.wordpress.com/2012/07/avat-2.jpg" />}
-    />
+    {users.map((user, index) => (
+      <ListItem
+        key={index}
+        primaryText={user.name.first + user.name.last}
+        leftAvatar={<Avatar src={user.picture.medium} />}
+      />
+    ))}
   </List>
 )
 
-export default UserList
+const mapStateToProps = (state) => ({
+  users: state.userAPI.data
+})
+
+export default connect(mapStateToProps)(UserList)
